@@ -1,69 +1,99 @@
-/**
- * Helper function to select stock data
- * Returns an array of values
- * @param {array} rows
- * @param {integer} index
- * index 0 - Date
- * index 1 - Open
- * index 2 - High
- * index 3 - Low
- * index 4 - Close
- * index 5 - Volume
- */
-function unpack(rows, index) {
-  return rows.map(function(row) {
-    return row[index];
-  });
+function init() {
+    // Grab a Reference to the Dropdown Select Element
+    var selector = d3.select("#selDataset");
+    
+    d3.json("samples.json").then(function(data) {
+        // console log the data to see output
+        // console.log(data);
+
+        // create variables for each data subset
+        var names = data?.names;
+        var metadata = data?.metadata;
+        var samples = data?.samples;
+
+        // console log the names to see outpu
+        console.log(names);
+
+        // console log the samples to see output
+        console.log(samples);
+
+        // console log metadata
+        console.log(metadata);
+
+        // For each sampe append the value to the dropdown option
+        data.samples.forEach((sample) => {
+            selector
+            .append("option")
+            .text(sample?.id)
+            .property("value", sample?.id);
+        })?.catch(function(error) {
+            console.log(error);
+        });
+
+        var firstMetadata = metadata?.[0];
+        var firstSample = samples?.[0];
+
+        console.log(firstMetadata);
+
+        // Use the First Metadata from the List to Build Metadata table
+        buildMetadata(firstMetadata);
+
+        // Use the First Sample from the List to Build horizontal bar chart
+        buildHorizontalBar(firstSample);
+
+    })?.catch(function(error) {
+        console.log(error);
+    });
 }
 
-d3.json("data/samples.json").then(function(data) {
-    console.log(data)
-}).catch(function(error) {
-    console.log(error);
-});
+function optionChanged(newSample) {
 
-/*
-function buildPlot() {
-  d3.json(url).then(function(data) {
+    console.log(newSample);
 
-    // Grab values from the data json object to build the plots
-    var name = data.name;
-    console.log(name);
-    var otu_id = data.metadata.id;
-    var ethnicity = data.metadata.ethnicity;
-    var gender = data.metadata.gender;
-    var age = unpack(data.dataset.data, 0);
-    var closingPrices = unpack(data.dataset.data, 4);
+    d3.json("samples.json").then(function(data) {
+        // console log the data to see output
 
-    var trace1 = {
-      type: "scatter",
-      mode: "lines",
-      name: name,
-      x: dates,
-      y: closingPrices,
-      line: {
-        color: "#17BECF"
-      }
-    };
+        // create variables for each data subset
+        var names = data?.names;
+        var metadata = data?.metadata;
+        var samples = data?.samples;
 
-    var data = [trace1];
+        // console log the names to see output
+        // console.log(names);
 
-    var layout = {
-      title: `${stock} closing prices`,
-      xaxis: {
-        range: [startDate, endDate],
-        type: "date"
-      },
-      yaxis: {
-        autorange: true,
-        type: "linear"
-      }
-    };
+        // console log the samples to see output
+        // console.log(samples);
 
-    Plotly.newPlot("plot", data, layout);
+        // console log metadata
+        // console.log(metadata);
+    
+        Object.entries(metadata).forEach(([key, value]) => {
 
-  });
+            if (value.id === parseInt(newSample)) {
+                console.log(metadata[key]);
+                // Plot metadata using select sample
+                buildMetadata(metadata[key]);                
+            }
+        })?.catch(function(error) {
+            console.log(error);
+        });
+
+        Object.entries(samples).forEach(([key, value]) => {
+
+            if (value.id === newSample) {
+                console.log(samples[key]);
+                // Plot using select sample
+                buildHorizontalBar(samples[key]);                
+            }
+        })?.catch(function(error) {
+            console.log(error);
+        });
+
+    })?.catch(function(error) {
+        console.log(error);
+    });
 }
 
-buildPlot();
-*/
+// Initialize the Dashboard
+init();
+
