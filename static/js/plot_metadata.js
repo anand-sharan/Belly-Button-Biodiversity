@@ -16,6 +16,4 @@ function buildMetadata(metadata) {
     })?.catch(function(error) {
         console.log(error);
     });
-    // BONUS: Build the Gauge Chart
-    //buildGauge(data.WFREQ);
 }

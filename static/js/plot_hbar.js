@@ -66,45 +66,9 @@ function buildHorizontalBar(sample) {
           },        
       };
 
-    // Use d3 to Select the Panel with id of `#bar`
-    var BAR = d3.select("#bar");
+    // Use d3 to Select the Panel with id of `#bubble`
+    var BAR = document.getElementById("bar")
 
-    // Use `.html("") to Clear any Existing Metadata
-    //BAR.html("");
-    // console.log(Object.entries(metadata));
-
-    Plotly.newPlot("bar", hbarData, hbarLayout);
-
-/*
-        buildCharts(firstSample);
-
-
-    })?.catch(function(error) {
-        console.log(error);
-    });*/
-/*
- 
-      let bubbleLayout = {
-        margin: { t: 0 },
-        hovermode: "closests",
-        xaxis: { title: "OTU ID"}
-      }
-  
-      let bubbleData = [
-        {
-          x: otu_ids,
-          y: sample_values,
-          text: otu_labels,
-          mode: "markers",
-          marker: {
-            size: sample_values,
-            color: otu_ids,
-            colorscale: "Earth"
-          }
-        }
-      ]
-  
-      Plotly.plot("bubble", bubbleData, bubbleLayout);
-  */
-
+    // Plot the horizontal bar chart
+    Plotly.newPlot(BAR, hbarData, hbarLayout);
 }

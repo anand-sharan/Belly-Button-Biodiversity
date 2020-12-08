@@ -41,6 +41,12 @@ function init() {
         // Use the First Sample from the List to Build horizontal bar chart
         buildHorizontalBar(firstSample);
 
+        // Use the First Sample from the List to Build Bubble chart
+        buildBubblePlot(firstSample);
+
+        // Use the First Meta Data from the List to Build Gauge chart
+        buildGaugePlot(firstMetadata?.wfreq);
+
     })?.catch(function(error) {
         console.log(error);
     });
@@ -70,9 +76,12 @@ function optionChanged(newSample) {
         Object.entries(metadata).forEach(([key, value]) => {
 
             if (value.id === parseInt(newSample)) {
-                console.log(metadata[key]);
+                console.log(metadata?.[key]);
                 // Plot metadata using select sample
-                buildMetadata(metadata[key]);                
+                buildMetadata(metadata?.[key]);
+                
+                // Plot Gauge char using select sample
+                buildGaugePlot(metadata?.[key]?.wfreq);
             }
         })?.catch(function(error) {
             console.log(error);
@@ -81,9 +90,11 @@ function optionChanged(newSample) {
         Object.entries(samples).forEach(([key, value]) => {
 
             if (value.id === newSample) {
-                console.log(samples[key]);
-                // Plot using select sample
-                buildHorizontalBar(samples[key]);                
+                console.log(samples?.[key]);
+                // Plot horizontal bar chart using select sample
+                buildHorizontalBar(samples?.[key]);
+                // Plot Bubble plot using the select sample
+                buildBubblePlot(samples?.[key]);                
             }
         })?.catch(function(error) {
             console.log(error);
@@ -96,4 +107,3 @@ function optionChanged(newSample) {
 
 // Initialize the Dashboard
 init();
-
