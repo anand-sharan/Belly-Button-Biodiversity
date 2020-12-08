@@ -45,7 +45,7 @@ function init() {
         buildBubblePlot(firstSample);
 
         // Use the First Meta Data from the List to Build Gauge chart
-        buildGaugePlot(firstMetadata?.wfreq);
+        buildGaugePlot((firstMetadata?.wfreq) ?? 0);
 
     })?.catch(function(error) {
         console.log(error);
@@ -81,7 +81,7 @@ function optionChanged(newSample) {
                 buildMetadata(metadata?.[key]);
                 
                 // Plot Gauge char using select sample
-                buildGaugePlot(metadata?.[key]?.wfreq);
+                buildGaugePlot((metadata?.[key]?.wfreq) ?? 0);
             }
         })?.catch(function(error) {
             console.log(error);
